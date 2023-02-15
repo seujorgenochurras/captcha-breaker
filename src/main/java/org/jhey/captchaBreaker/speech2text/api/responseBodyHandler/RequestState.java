@@ -7,6 +7,8 @@ public enum RequestState {
       DONE,
       @SerializedName("queued")
       QUEUE,
+      @SerializedName("processing")
+      PROCESSING,
       @SerializedName("error")
       ERROR
 }

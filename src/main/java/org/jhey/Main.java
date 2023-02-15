@@ -2,19 +2,18 @@ package org.jhey;
 
 
 import org.jhey.captchaBreaker.speech2text.AudioParser;
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO.AssemblyResponseDTO;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
 //   static ChromeDriver driver;
 //   static DevTools chromeDevTools;
 //   static ChromeDriverService service;
-   public static void main(String[] args) throws InterruptedException, IOException {
+   public static void main(String[] args) throws InterruptedException, IOException, ExecutionException {
       AudioParser parser = new AudioParser();
-      parser.setAudioUrl("https://www.google.com/recaptcha/api2/payload/audio.mp3?p=06AFY_a8VZpcxB0y5Fq4x7QMPuujPrvNR17GAdrTvNHYrgQtstAWGeEGkjPzaHCfoPX6C6pbxEtm2GkcDjwa_QTXLc__40lvqCND2hF2e9K8ujbGSZeFcRD3tV5JSPBRIBcoZQKED6_V5bFcS8OvQYrGhuunZAuuM9xMiBf8qc116bBnVcMhDUscnmlQsEHxdNPGqaD566iec2&k=6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-");
-      AssemblyResponseDTO assemblyResponseDTO = parser.transcribeAudio();
-      System.out.println(assemblyResponseDTO.getRequestState());
+      parser.setAudioUrl("https://s3-us-west-2.amazonaws.com/blog.assemblyai.com/audio/8-7-2018-post/7510.mp3");
+      System.out.println(parser.transcribeAudio().getTranscribedAudio());
    }
 //      System.setProperty("webdriver.chrome.driver", "src/drive/chromedriver.exe");
 //      ChromeOptions options = new ChromeOptions();

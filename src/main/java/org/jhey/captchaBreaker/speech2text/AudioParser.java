@@ -1,23 +1,20 @@
 package org.jhey.captchaBreaker.speech2text;
 
 
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO.AssemblyResponseDTO;
 import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.RequestBuilder;
 import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.ResponseHandler;
 
 import java.io.IOException;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.time.Duration;
+import java.util.concurrent.ExecutionException;
 
 public class AudioParser {
    private String audioUrl;
    private Duration checkIfAudioIsProcessedTimer = Duration.ofSeconds(5);
-
-   private final HttpClient httpClient = HttpClient.newHttpClient();
-
    private final ResponseHandler responseHandler = new ResponseHandler(getCheckIfAudioIsProcessedTimer());
-
    public Duration getCheckIfAudioIsProcessedTimer() {
       return checkIfAudioIsProcessedTimer;
    }
@@ -37,14 +34,11 @@ public class AudioParser {
    public void setAudioUrl(String audioUrl) {
       this.audioUrl = audioUrl;
    }
-   public AssemblyResponseDTO transcribeAudio() throws IOException, InterruptedException {
-      HttpRequest audioRequest = RequestBuilder.ofPostRequest(audioUrl);
-
+   public AssemblyResponseDTO transcribeAudio() throws IOException, InterruptedException, ExecutionException {
+      HttpRequest audioRequest = RequestBuilder.buildPostRequest(audioUrl);
       responseHandler.setCheckDelay(getCheckIfAudioIsProcessedTimer());
-
       AssemblyResponseDTO responseDTO = RequestBuilder.getResponse(audioRequest);
+      return responseHandler.handle(responseDTO, getCheckIfAudioIsProcessedTimer()).get();
 
-      responseHandler.handle(responseDTO.getId(), getCheckIfAudioIsProcessedTimer());
-      return RequestBuilder.getResponse(audioRequest);
    }
 }

@@ -14,18 +14,20 @@ import java.net.http.HttpResponse;
 public abstract class RequestBuilder {
    private static final Dotenv dotenv = Dotenv.load();
    private static final String assemblyAPIToken = dotenv.get("ASSEMBLYAI_TOKEN");
-   private static final String assemblyAiURL = "https://api.assemblyai.com/v2/transcript/";
+   private static final String assemblyAiURL = "https://api.assemblyai.com/v2/transcript";
    private static final HttpClient httpClient = HttpClient.newHttpClient();
 
    /**
     * @return the getHttpRequest that is used to check information about the transcribed audio.
     * Such as, the stage of transcription (e.g. QUEUE) or the transcribed audio as a whole
     * */
-   public static HttpRequest ofGetRequest(@Nonnull String requestId){
+   public static HttpRequest buildGetAudioStateRequest(@Nonnull AssemblyResponseDTO assemblyResponseDTO){
+      String requestId = assemblyResponseDTO.getId();
+
       return HttpRequest.newBuilder()
               .setHeader("Authorization", assemblyAPIToken)
               .GET()
-              .uri(URI.create(assemblyAiURL + requestId))
+              .uri(URI.create(assemblyAiURL +"/"+ requestId))
               .build();
    }
 
@@ -34,7 +36,7 @@ public abstract class RequestBuilder {
     * to send to the AssemblyAPI the audioURL, so it can latter transcribe the audio
     * @param audioURL the captcha audioURL
     * */
-   public static HttpRequest ofPostRequest(@Nonnull String audioURL){
+   public static HttpRequest buildPostRequest(@Nonnull String audioURL){
       HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers
               .ofString("{\"audio_url\" : \"" + audioURL + "\"}");
       return HttpRequest.newBuilder()
@@ -47,7 +49,6 @@ public abstract class RequestBuilder {
       Gson gson = new Gson();
       String result =
               httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString()).body();
-      System.out.println(result);
       return gson.fromJson(result, AssemblyResponseDTO.class);
    }
 }

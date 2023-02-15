@@ -1,9 +1,8 @@
 package org.jhey;
 
 
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.devtools.DevTools;
+import org.jhey.captchaBreaker.speech2text.AudioParser;
+import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO.AssemblyResponseDTO;
 
 import java.io.IOException;
 
@@ -12,7 +11,10 @@ public class Main {
 //   static DevTools chromeDevTools;
 //   static ChromeDriverService service;
    public static void main(String[] args) throws InterruptedException, IOException {
-
+      AudioParser parser = new AudioParser();
+      parser.setAudioUrl("https://www.google.com/recaptcha/api2/payload/audio.mp3?p=06AFY_a8VZpcxB0y5Fq4x7QMPuujPrvNR17GAdrTvNHYrgQtstAWGeEGkjPzaHCfoPX6C6pbxEtm2GkcDjwa_QTXLc__40lvqCND2hF2e9K8ujbGSZeFcRD3tV5JSPBRIBcoZQKED6_V5bFcS8OvQYrGhuunZAuuM9xMiBf8qc116bBnVcMhDUscnmlQsEHxdNPGqaD566iec2&k=6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-");
+      AssemblyResponseDTO assemblyResponseDTO = parser.transcribeAudio();
+      System.out.println(assemblyResponseDTO.getRequestState());
    }
 //      System.setProperty("webdriver.chrome.driver", "src/drive/chromedriver.exe");
 //      ChromeOptions options = new ChromeOptions();

@@ -1,7 +1,7 @@
-package org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO;
+package org.jhey.captcha_breaker.stt.api.request.dto;
 
 import com.google.gson.annotations.SerializedName;
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.RequestState;
+import org.jhey.captcha_breaker.stt.api.request.RequestState;
 
 import javax.annotation.Nullable;
 
@@ -20,28 +20,13 @@ public class AssemblyResponseDTO {
       return id;
      }
 
-     public void setId(String id) {
-      this.id = id;
-     }
-
-
      @Nullable
      public String getTranscribedAudio() {
       return transcribedAudio;
      }
 
-     public void setTranscribedAudio(@Nullable String transcribedAudio) {
-      this.transcribedAudio = transcribedAudio;
-     }
-
      public RequestState getRequestState() {
       return requestState;
      }
-
-     public void setRequestState(RequestState requestState) {
-      this.requestState = requestState;
-     }
-
-
 
 }

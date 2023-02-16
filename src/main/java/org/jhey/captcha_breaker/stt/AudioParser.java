@@ -1,10 +1,9 @@
-package org.jhey.captchaBreaker.speech2text;
+package org.jhey.captcha_breaker.stt;
 
 
-import net.bytebuddy.agent.builder.AgentBuilder;
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO.AssemblyResponseDTO;
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.RequestBuilder;
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.ResponseHandler;
+import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.stt.api.request.RequestBuilder;
+import org.jhey.captcha_breaker.stt.api.handlers.ResponseHandler;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;

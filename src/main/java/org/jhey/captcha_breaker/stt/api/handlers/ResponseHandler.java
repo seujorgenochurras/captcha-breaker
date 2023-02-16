@@ -1,6 +1,6 @@
-package org.jhey.captchaBreaker.speech2text.api.responseBodyHandler;
+package org.jhey.captcha_breaker.stt.api.handlers;
 
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
 
 import java.time.Duration;
 import java.util.concurrent.*;
@@ -17,7 +17,6 @@ public class ResponseHandler {
       public CompletableFuture<AssemblyResponseDTO> handle(AssemblyResponseDTO responseDTO, final Duration checkDelay){
             CompletableFuture<AssemblyResponseDTO> completableFuture = new CompletableFuture<>();
             AudioRunnable audioRunnable = new AudioRunnable(completableFuture, responseDTO);
-
             executorService.scheduleWithFixedDelay(
                    audioRunnable,
                     1,

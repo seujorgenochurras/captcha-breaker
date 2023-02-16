@@ -1,8 +1,8 @@
-package org.jhey.captchaBreaker.speech2text.api.responseBodyHandler;
+package org.jhey.captcha_breaker.stt.api.request;
 
 import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.jhey.captchaBreaker.speech2text.api.responseBodyHandler.DTO.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -13,9 +13,12 @@ import java.net.http.HttpResponse;
 
 public abstract class RequestBuilder {
    private static final Dotenv dotenv = Dotenv.load();
-   private static final String assemblyAPIToken = dotenv.get("ASSEMBLYAI_TOKEN");
-   private static final String assemblyAiURL = "https://api.assemblyai.com/v2/transcript";
+   private static final String ASSEMBLYAI_TOKEN = dotenv.get("ASSEMBLYAI_TOKEN");
+   private static final String ASSEMBLY_AI_URL = "https://api.assemblyai.com/v2/transcript";
    private static final HttpClient httpClient = HttpClient.newHttpClient();
+
+   private RequestBuilder() {
+   }
 
    /**
     * @return the getHttpRequest that is used to check information about the transcribed audio.
@@ -25,9 +28,9 @@ public abstract class RequestBuilder {
       String requestId = assemblyResponseDTO.getId();
 
       return HttpRequest.newBuilder()
-              .setHeader("Authorization", assemblyAPIToken)
+              .setHeader("Authorization", ASSEMBLYAI_TOKEN)
               .GET()
-              .uri(URI.create(assemblyAiURL +"/"+ requestId))
+              .uri(URI.create(ASSEMBLY_AI_URL +"/"+ requestId))
               .build();
    }
 
@@ -40,9 +43,9 @@ public abstract class RequestBuilder {
       HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers
               .ofString("{\"audio_url\" : \"" + audioURL + "\"}");
       return HttpRequest.newBuilder()
-              .setHeader("Authorization", assemblyAPIToken)
+              .setHeader("Authorization", ASSEMBLYAI_TOKEN)
               .POST(body)
-              .uri(URI.create(assemblyAiURL))
+              .uri(URI.create(ASSEMBLY_AI_URL))
               .build();
    }
    public static AssemblyResponseDTO getResponse(HttpRequest httpRequest) throws IOException, InterruptedException {

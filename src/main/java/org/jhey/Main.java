@@ -1,7 +1,7 @@
 package org.jhey;
 
 
-import org.jhey.captchaBreaker.speech2text.AudioParser;
+import org.jhey.captcha_breaker.stt.AudioParser;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;

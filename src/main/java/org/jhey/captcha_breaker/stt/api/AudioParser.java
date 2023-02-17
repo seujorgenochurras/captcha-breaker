@@ -1,4 +1,4 @@
-package org.jhey.captcha_breaker.stt;
+package org.jhey.captcha_breaker.stt.api;
 
 
 import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;

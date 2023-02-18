@@ -21,8 +21,11 @@ public class AudioRunnable implements Runnable {
       HttpRequest transcribedAudioStatus = RequestBuilder.buildGetAudioStateRequest(audioProcessingResponse);
       try {
          audioProcessingResponse = RequestBuilder.getResponse(transcribedAudioStatus);
-         if (audioProcessingResponse.getRequestState().equals(RequestState.DONE)){
+        RequestState processingStatus = audioProcessingResponse.getRequestState();
+         if (processingStatus.equals(RequestState.DONE)){
             responseDTOCompletableFuture.complete(audioProcessingResponse);
+         } else if (processingStatus.equals(RequestState.ERROR)) {
+            throw new IllegalStateException("AssemblyAPI returned ERROR, check if the URL is valid");
          }
       } catch (IOException | InterruptedException e) {
             System.out.println("Exception " + e.getMessage());

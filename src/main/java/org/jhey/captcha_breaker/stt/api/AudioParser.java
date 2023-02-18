@@ -1,4 +1,4 @@
-package org.jhey.captcha_breaker.stt;
+package org.jhey.captcha_breaker.stt.api;
 
 
 import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
@@ -6,6 +6,9 @@ import org.jhey.captcha_breaker.stt.api.request.RequestBuilder;
 import org.jhey.captcha_breaker.stt.api.handlers.ResponseHandler;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.http.HttpRequest;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
@@ -31,6 +34,7 @@ public class AudioParser {
    }
 
    public void setAudioUrl(String audioUrl) {
+      if(!isValidUrl(audioUrl)) throw new IllegalArgumentException("audioUrl is not a valid Url");
       this.audioUrl = audioUrl;
    }
    public AssemblyResponseDTO transcribeAudio() throws IOException, InterruptedException, ExecutionException {
@@ -38,6 +42,13 @@ public class AudioParser {
       responseHandler.setCheckDelay(getCheckIfAudioIsProcessedTimer());
       AssemblyResponseDTO responseDTO = RequestBuilder.getResponse(audioRequest);
       return responseHandler.handle(responseDTO, getCheckIfAudioIsProcessedTimer()).get();
-
+   }
+   private boolean isValidUrl(String audioUrl) {
+      try{
+         new URL(audioUrl).toURI();
+         return true;
+      }catch (MalformedURLException | URISyntaxException e){
+         return false;
+      }
    }
 }

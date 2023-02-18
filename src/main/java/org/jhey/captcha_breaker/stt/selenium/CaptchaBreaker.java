@@ -108,7 +108,7 @@ public class CaptchaBreaker {
    }
    private void waitUntilPropertyHasAttributeToBe(String elementXpath, String attribute, String valueToBe){
       try {
-         new WebDriverWait(webDriver, Duration.ofSeconds(4))
+         new WebDriverWait(webDriver, Duration.ofSeconds(2))
                  .until(ExpectedConditions.attributeToBe(By.xpath(elementXpath), attribute, valueToBe));
       }catch (NoSuchElementException | TimeoutException e){
          logger.log(Level.SEVERE, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));

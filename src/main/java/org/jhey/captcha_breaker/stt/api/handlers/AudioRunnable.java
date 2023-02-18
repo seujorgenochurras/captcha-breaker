@@ -3,7 +3,6 @@ package org.jhey.captcha_breaker.stt.api.handlers;
 import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
 import org.jhey.captcha_breaker.stt.api.request.RequestBuilder;
 import org.jhey.captcha_breaker.stt.api.request.RequestState;
-import org.openqa.selenium.NotFoundException;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;

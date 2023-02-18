@@ -18,6 +18,17 @@ driver.get("https://www.google.com/recaptcha/api2/demo");
 CaptchaBreaker captchaBreaker = new CaptchaBreaker(driver); 
 captchaBreaker.breakCaptcha();
 ```
+
+As I said, the lib is divided in 2 parts, the audio transcriber and the selenium.
+If you want to use the audio transcriber, you can use the AudioParser class
+
+```java
+ AudioParser audioParser = new AudioParser();
+      audioParser.setAudioUrl("https://s3-us-west-2.amazonaws.com/blog.assemblyai.com/audio/8-7-2018-post/7510.mp3");
+      AssemblyResponseDTO assemblyResponseDTO = audioParser.transcribeAudio();
+      System.out.println(assemblyResponseDTO.getTranscribedAudio());
+```
+
 ### Is it good?
 I think good is a strong word for this project.
 It takes about 15 seconds to break each captcha

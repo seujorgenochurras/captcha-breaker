@@ -1,8 +1,8 @@
-package org.jhey.captcha_breaker.stt.api.handlers;
+package org.jhey.captcha_breaker.api.handlers;
 
-import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
-import org.jhey.captcha_breaker.stt.api.request.RequestBuilder;
-import org.jhey.captcha_breaker.stt.api.request.RequestState;
+import org.jhey.captcha_breaker.api.request.dto.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.api.request.RequestBuilder;
+import org.jhey.captcha_breaker.api.request.RequestState;
 
 import java.io.IOException;
 import java.net.http.HttpRequest;

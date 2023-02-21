@@ -1,8 +1,8 @@
-package org.jhey.captcha_breaker.stt.api.request;
+package org.jhey.captcha_breaker.api.request;
 
 import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
-import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.api.request.dto.AssemblyResponseDTO;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;

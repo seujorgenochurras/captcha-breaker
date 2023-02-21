@@ -1,6 +1,6 @@
-package org.jhey.captcha_breaker.stt.api.handlers;
+package org.jhey.captcha_breaker.api.handlers;
 
-import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.api.request.dto.AssemblyResponseDTO;
 
 import java.time.Duration;
 import java.util.concurrent.*;

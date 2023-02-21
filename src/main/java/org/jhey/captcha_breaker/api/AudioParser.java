@@ -1,9 +1,9 @@
-package org.jhey.captcha_breaker.stt.api;
+package org.jhey.captcha_breaker.api;
 
 
-import org.jhey.captcha_breaker.stt.api.request.dto.AssemblyResponseDTO;
-import org.jhey.captcha_breaker.stt.api.request.RequestBuilder;
-import org.jhey.captcha_breaker.stt.api.handlers.ResponseHandler;
+import org.jhey.captcha_breaker.api.request.dto.AssemblyResponseDTO;
+import org.jhey.captcha_breaker.api.request.RequestBuilder;
+import org.jhey.captcha_breaker.api.handlers.ResponseHandler;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

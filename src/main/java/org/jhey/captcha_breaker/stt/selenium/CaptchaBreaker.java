@@ -1,10 +1,13 @@
 package org.jhey.captcha_breaker.stt.selenium;
 
-import org.jhey.captcha_breaker.stt.api.AudioParser;
+import org.jhey.captcha_breaker.api.AudioParser;
+import org.jhey.captcha_breaker.stt.html.elements.Captcha;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaElement;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.DeafChallenge;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -22,14 +25,11 @@ import java.util.logging.Logger;
  * It's likely to break the code and give an unwanted error
  * */
 public class CaptchaBreaker {
-   private final WebDriver webDriver;
-   private static final String CAPTCHA_CLICKABLE_BOX_XPATH = "//iframe[starts-with(@title, 'reCAPTCHA')]";
-   private static final String VERIFIED_BOX_XPATH = "//*[@id='recaptcha-anchor']";
-
    private static final Logger logger = Logger.getLogger(CaptchaBreaker.class.getName());
+   private final Captcha captcha;
 
-   public CaptchaBreaker(WebDriver webDriver) {
-      this.webDriver = webDriver;
+   public CaptchaBreaker(Captcha captcha) {
+      this.captcha = captcha;
    }
 
    /**
@@ -37,92 +37,68 @@ public class CaptchaBreaker {
     *
     * @see AudioParser
     * */
-   public void breakCaptcha()throws InterruptedException{
-     WebElement captchaBox = webDriver.findElement(By.xpath(CAPTCHA_CLICKABLE_BOX_XPATH));
-     captchaBox.click();
-     waitUntilIsUsable(CAPTCHA_CLICKABLE_BOX_XPATH);
-     if (isCaptchaCompleted(captchaBox)) return;
+   public void breakCaptcha() {
 
-     String biggerBoxXpath = "//iframe[starts-with(@src, 'https://www.google.com/recaptcha/api2/bframe?')]";
+      CaptchaElement captchaBoxElement = captcha.getCaptchaBoxElement();
+      captchaBoxElement.click();
 
-      WebElement captchaBiggerBox = webDriver.findElement(By.xpath(biggerBoxXpath));
-      waitUntilIsUsable(biggerBoxXpath);
+      waitForChanges(captchaBoxElement.XPATH);
+
+      if (isCaptchaCompleted()) return;
+
       try {
-
-         solveCaptcha(captchaBiggerBox);
+         solveCaptcha();
 
       }catch (IOException | ExecutionException e){
          logger.log(Level.SEVERE, e.getMessage());
+      }catch (InterruptedException e){
+         logger.log(Level.SEVERE, e.getMessage());
+         Thread.currentThread().interrupt();
       }
    }
    
-   private boolean isCaptchaCompleted(WebElement captchaElement){
-      webDriver.switchTo().frame(captchaElement);
-      waitUntilPropertyHasAttributeToBe(VERIFIED_BOX_XPATH,"aria-checked", "true" );
-      WebElement captchaCheckBox = webDriver.findElement(By.xpath(VERIFIED_BOX_XPATH));
-      String boxState = captchaCheckBox.getAttribute("aria-checked");
-      webDriver.switchTo().defaultContent();
-      return boxState.equals("true");
-   }
-   private void solveCaptcha(WebElement captchaRectangleBox) throws IOException, ExecutionException, InterruptedException {
-      webDriver.switchTo().frame(captchaRectangleBox);
-
-      String captchaForDeafButtonXpath = "//*[@id=\"recaptcha-audio-button\"]";
-      waitUntilIsUsable(captchaForDeafButtonXpath);
-
-      WebElement audioButton = webDriver.findElement(By.xpath(captchaForDeafButtonXpath));
-      audioButton.click();
-
-      String audioUrlXpath = "//*[@id=\"rc-audio\"]/div[7]/a";
-      waitUntilIsUsable(audioUrlXpath);
-
-      String audioUrl = webDriver.findElement(By.xpath(audioUrlXpath))
-              .getAttribute("href");
-
-      String transcribedAudio = getAudioText(audioUrl);
-
-     String inputAudioXpath = "//*[@id=\"audio-response\"]";
-     webDriver.findElement(By.xpath(inputAudioXpath)).sendKeys(transcribedAudio);
-
-     finishCaptcha();
+   private boolean isCaptchaCompleted(){
+      waitForChanges(captcha.getCheckbox().XPATH);
+      return captcha.getCheckbox().isVerified();
    }
 
-   private String getAudioText(String audioUrl) throws IOException, ExecutionException, InterruptedException {
+   private void solveCaptcha() throws IOException, ExecutionException, InterruptedException {
+      CaptchaChallengesBox captchaChallengesBox = captcha.getCaptchaChallengeElement();
+
+      captchaChallengesBox.openDeafChallenge();
+      DeafChallenge deafChallenge = captchaChallengesBox.getDeafChallenge();
+      waitForChanges(deafChallenge.XPATH);
+
+      String transcribedAudio = getAudioText(deafChallenge.getAudioURL().toString());
+        deafChallenge.getInputAudio().sendKeys(transcribedAudio);
+        finishCaptcha();
+   }
+
+   private static String getAudioText(String audioUrl) throws IOException, ExecutionException, InterruptedException {
       AudioParser audioParser = new AudioParser();
       audioParser.setAudioUrl(audioUrl);
       return audioParser.transcribeAudio().getTranscribedAudio();
    }
 
    /**
-    * Usable means anything, from checking the element attributes to clicking on it
-    *<br> Sometimes if the element you are trying to use is refreshing
+    * Sometimes if the element you are trying to use is refreshing
     * it gives an error, this method waits until the element is fully refreshed
     * */
-   private void waitUntilIsUsable(String elementXpath){
+   private void waitForChanges(String elementXpath){
+      WebDriver webDriver = captcha.getWebDriver();
       try {
       new WebDriverWait(webDriver, Duration.ofSeconds(4))
               .until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(By.xpath(elementXpath))));
-      }catch (NoSuchElementException | TimeoutException e){
+      }
+      catch (NoSuchElementException | TimeoutException e){
          logger.log(Level.SEVERE, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));
       }
    }
-   private void waitUntilPropertyHasAttributeToBe(String elementXpath, String attribute, String valueToBe){
-      try {
-         new WebDriverWait(webDriver, Duration.ofSeconds(2))
-                 .until(ExpectedConditions.attributeToBe(By.xpath(elementXpath), attribute, valueToBe));
-      }catch (NoSuchElementException | TimeoutException e){
-         logger.log(Level.SEVERE, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));
-      }
-   }
-
-   private void finishCaptcha() throws InterruptedException {
-      String recaptchaVerifyButtonXpath = "//*[@id=\"recaptcha-verify-button\"]";
-      webDriver.findElement(By.xpath(recaptchaVerifyButtonXpath)).click();
-      webDriver.switchTo().defaultContent();
-      waitUntilIsUsable(CAPTCHA_CLICKABLE_BOX_XPATH);
-      if (!isCaptchaCompleted(webDriver.findElement(By.xpath(CAPTCHA_CLICKABLE_BOX_XPATH)))) {
+   private void finishCaptcha(){
+      captcha.getSubmitButton().click();
+      waitForChanges(captcha.getCaptchaBoxElement().XPATH);
+      if (!isCaptchaCompleted()) {
          breakCaptcha();
       }
    }
-
 }

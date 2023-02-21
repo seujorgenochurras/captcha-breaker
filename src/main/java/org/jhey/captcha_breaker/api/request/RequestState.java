@@ -1,4 +1,4 @@
-package org.jhey.captcha_breaker.stt.api.request;
+package org.jhey.captcha_breaker.api.request;
 
 import com.google.gson.annotations.SerializedName;
 

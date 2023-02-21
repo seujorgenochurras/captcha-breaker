@@ -1,13 +1,14 @@
 package org.jhey;
 
 
-import org.jhey.captcha_breaker.stt.selenium.CaptchaBreaker;
+import org.jhey.captcha_breaker.stt.html.elements.Captcha;
+import org.jhey.captcha_breaker.stt.selenium.CaptchaFinder;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Main {
    static ChromeDriver driver;
-   public static void main(String[] args) throws InterruptedException {
+   public static void main(String[] args) {
       System.setProperty("webdriver.chrome.driver", "src/drive/chromedriver.exe");
       ChromeOptions options = new ChromeOptions();
       options.addArguments("--disable-extensions");
@@ -18,7 +19,7 @@ public class Main {
       driver = new ChromeDriver(options);
 
       driver.get("https://www.google.com/recaptcha/api2/demo");
-      CaptchaBreaker captchaBreaker = new CaptchaBreaker(driver);
-      captchaBreaker.breakCaptcha();
+      Captcha captcha = CaptchaFinder.findCaptchaElement(driver);
+      captcha.solveCaptcha();
    }
    }

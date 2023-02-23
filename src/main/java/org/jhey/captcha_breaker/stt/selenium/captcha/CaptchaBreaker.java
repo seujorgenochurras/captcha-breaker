@@ -1,13 +1,13 @@
-package org.jhey.captcha_breaker.stt.selenium;
+package org.jhey.captcha_breaker.stt.selenium.captcha;
 
 import org.jhey.captcha_breaker.api.AudioParser;
 import org.jhey.captcha_breaker.stt.html.elements.Captcha;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaElement;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.DeafChallenge;
-import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -42,13 +42,10 @@ public class CaptchaBreaker {
       CaptchaElement captchaBoxElement = captcha.getCaptchaBoxElement();
       captchaBoxElement.click();
 
-      waitForChanges(captchaBoxElement.XPATH);
-
       if (isCaptchaCompleted()) return;
 
       try {
          solveCaptcha();
-
       }catch (IOException | ExecutionException e){
          logger.log(Level.SEVERE, e.getMessage());
       }catch (InterruptedException e){
@@ -58,8 +55,8 @@ public class CaptchaBreaker {
    }
    
    private boolean isCaptchaCompleted(){
-      waitForChanges(captcha.getCheckbox().XPATH);
-      return captcha.getCheckbox().isVerified();
+     waitToBeStaleness(captcha.getCheckbox().toWebElement());
+     return captcha.getCheckbox().isVerified();
    }
 
    private void solveCaptcha() throws IOException, ExecutionException, InterruptedException {
@@ -67,7 +64,7 @@ public class CaptchaBreaker {
 
       captchaChallengesBox.openDeafChallenge();
       DeafChallenge deafChallenge = captchaChallengesBox.getDeafChallenge();
-      waitForChanges(deafChallenge.XPATH);
+      waitToBeStaleness(captcha.getCaptchaChallengeElement().getDeafChallenge().toWebElement());
 
       String transcribedAudio = getAudioText(deafChallenge.getAudioURL().toString());
         deafChallenge.getInputAudio().sendKeys(transcribedAudio);
@@ -84,19 +81,28 @@ public class CaptchaBreaker {
     * Sometimes if the element you are trying to use is refreshing
     * it gives an error, this method waits until the element is fully refreshed
     * */
-   private void waitForChanges(String elementXpath){
-      WebDriver webDriver = captcha.getWebDriver();
+   private void waitToBeStaleness(WebElement webElement) {
       try {
-      new WebDriverWait(webDriver, Duration.ofSeconds(4))
-              .until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(By.xpath(elementXpath))));
+      new WebDriverWait(captcha.getWebDriver(), Duration.ofSeconds(2))
+              .until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf(webElement)));
       }
       catch (NoSuchElementException | TimeoutException e){
-         logger.log(Level.SEVERE, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));
+         logger.log(Level.WARNING, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));
+      }
+   }
+   private void waitToBeClickable(WebElement webElement){
+      WebDriver webDriver = captcha.getWebDriver();
+      try {
+         new WebDriverWait(webDriver, Duration.ofSeconds(4))
+                 .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(webElement)));
+      }
+      catch (NoSuchElementException | TimeoutException e){
+         logger.log(Level.WARNING, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));
       }
    }
    private void finishCaptcha(){
       captcha.getSubmitButton().click();
-      waitForChanges(captcha.getCaptchaBoxElement().XPATH);
+      waitToBeStaleness(captcha.getCaptchaBoxElement().toWebElement());
       if (!isCaptchaCompleted()) {
          breakCaptcha();
       }

@@ -1,6 +1,7 @@
 package org.jhey.captcha_breaker.stt.html.elements.captcha.challenge;
 
-import org.jhey.captcha_breaker.stt.selenium.CaptchaBreaker;
+import org.jhey.captcha_breaker.stt.html.elements.CustomElement;
+import org.jhey.captcha_breaker.stt.selenium.captcha.CaptchaBreaker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -9,8 +10,11 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public interface DeafChallenge extends WebElement {
-   default URL getAudioURL() {
+public class DeafChallenge extends CustomElement {
+   public DeafChallenge(WebElement webElement) {
+      super(webElement);
+   }
+   public URL getAudioURL() {
          String audioUrlXpath = "//*[@id=\"rc-audio\"]/div[7]/a";
          WebElement audioButtonElement = this.findElement(By.xpath(audioUrlXpath));
       try{
@@ -22,9 +26,8 @@ public interface DeafChallenge extends WebElement {
       }
       return null;
    }
-   default DeafInputAudio getInputAudio(){
-      return (DeafInputAudio) this.findElement(By.xpath("//*[@id=\"audio-response\"]"));
+   public DeafInputAudio getInputAudio(){
+      return new DeafInputAudio(this.findElement(By.xpath("//*[@id=\"audio-response\"]")));
    }
-   String XPATH = "//*[@id=\"recaptcha-audio-button\"]";
 
 }

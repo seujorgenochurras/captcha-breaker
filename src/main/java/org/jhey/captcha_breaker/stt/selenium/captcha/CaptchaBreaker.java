@@ -2,7 +2,7 @@ package org.jhey.captcha_breaker.stt.selenium.captcha;
 
 import org.jhey.captcha_breaker.api.AudioParser;
 import org.jhey.captcha_breaker.stt.html.elements.Captcha;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaElement;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaSquareElement;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.DeafChallenge;
 import org.openqa.selenium.TimeoutException;
@@ -38,8 +38,7 @@ public class CaptchaBreaker {
     * @see AudioParser
     * */
    public void breakCaptcha() {
-
-      CaptchaElement captchaBoxElement = captcha.getCaptchaBoxElement();
+      CaptchaSquareElement captchaBoxElement = captcha.getCaptchaSquareElement();
       captchaBoxElement.click();
 
       if (isCaptchaCompleted()) return;
@@ -102,7 +101,7 @@ public class CaptchaBreaker {
    }
    private void finishCaptcha(){
       captcha.getSubmitButton().click();
-      waitToBeStaleness(captcha.getCaptchaBoxElement().toWebElement());
+      waitToBeStaleness(captcha.getCaptchaSquareElement().toWebElement());
       if (!isCaptchaCompleted()) {
          breakCaptcha();
       }

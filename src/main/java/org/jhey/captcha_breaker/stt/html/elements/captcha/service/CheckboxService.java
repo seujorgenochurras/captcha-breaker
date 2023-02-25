@@ -1,7 +1,7 @@
 package org.jhey.captcha_breaker.stt.html.elements.captcha.service;
 
 import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaCheckbox;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaElement;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaSquareElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,17 +16,16 @@ public class CheckboxService {
    }
    public void updateCheckbox(CaptchaCheckbox checkbox, @Nonnull WebElement newCheckBox){
       switchToCaptchaFrame();
-      checkbox.updateRawWebElement(newCheckBox);
+      checkbox.updateElement(newCheckBox);
       switchToDefault();
    }
    public void updateCheckbox(CaptchaCheckbox checkbox){
       switchToCaptchaFrame();
-      checkbox.updateRawWebElement(webDriver.findElement(By.xpath(CaptchaCheckbox.XPATH)));
+      checkbox.updateElement(webDriver.findElement(By.xpath(CaptchaCheckbox.XPATH)));
       switchToDefault();
    }
    private void switchToCaptchaFrame(){
-
-      webDriver.switchTo().frame(webDriver.findElement(By.xpath(CaptchaElement.XPATH)));
+      webDriver.switchTo().frame(webDriver.findElement(By.xpath(CaptchaSquareElement.XPATH)));
    }
    private void switchToDefault(){
       webDriver.switchTo().defaultContent();

@@ -3,6 +3,7 @@ package org.jhey.captcha_breaker.stt.html.elements.captcha.challenge;
 import org.jhey.captcha_breaker.stt.html.elements.CustomElement;
 import org.jhey.captcha_breaker.stt.selenium.captcha.CaptchaBreaker;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.net.MalformedURLException;
@@ -11,8 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DeafChallenge extends CustomElement {
-   public DeafChallenge(WebElement webElement) {
-      super(webElement);
+   WebDriver webDriver;
+   public DeafChallenge(WebElement webElement, WebDriver webDriver) {
+      super(webElement, webDriver);
+      this.webDriver = webDriver;
    }
    public URL getAudioURL() {
          String audioUrlXpath = "//*[@id=\"rc-audio\"]/div[7]/a";
@@ -27,7 +30,7 @@ public class DeafChallenge extends CustomElement {
       return null;
    }
    public DeafInputAudio getInputAudio(){
-      return new DeafInputAudio(this.findElement(By.xpath("//*[@id=\"audio-response\"]")));
+      return new DeafInputAudio(this.findElement(By.xpath("//*[@id=\"audio-response\"]")), webDriver);
    }
 
 }

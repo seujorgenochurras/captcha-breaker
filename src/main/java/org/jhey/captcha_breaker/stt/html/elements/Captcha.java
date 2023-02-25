@@ -1,7 +1,7 @@
 package org.jhey.captcha_breaker.stt.html.elements;
 
 import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaCheckbox;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaElement;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaSquareElement;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaSubmitButton;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.service.CheckboxService;
@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class Captcha {
-   private CaptchaElement captchaBoxElement;
+   private CaptchaSquareElement captchaSquareElement;
    private CaptchaChallengesBox captchaChallengeElement;
    private WebDriver webDriver; // This is needed to be able to break the captcha
    private CaptchaCheckbox checkbox;
@@ -24,14 +24,12 @@ public class Captcha {
       captchaBreaker.breakCaptcha();
    }
    private void registerNewCheckbox(){
-      getWebDriver().switchTo().frame(getCaptchaBoxElement().toWebElement());
+      getWebDriver().switchTo().frame(getCaptchaSquareElement().toWebElement());
       setCheckbox(new CaptchaCheckbox
-              (getWebDriver().findElement(By.id("recaptcha-anchor"))));
+              (webDriver.findElement(By.id("recaptcha-anchor")), webDriver));
       getWebDriver().switchTo().defaultContent();
    }
    public CaptchaCheckbox getCheckbox() {
-      checkboxService.updateCheckbox(this.checkbox);
-      getWebDriver().switchTo().frame(getCaptchaBoxElement().toWebElement());
       return this.checkbox;
    }
 
@@ -44,12 +42,12 @@ public class Captcha {
       return this;
    }
 
-   public CaptchaElement getCaptchaBoxElement() {
-      return captchaBoxElement;
+   public CaptchaSquareElement getCaptchaSquareElement() {
+      return captchaSquareElement;
    }
 
-   public Captcha setCaptchaBoxElement(CaptchaElement captchaBoxElement) {
-      this.captchaBoxElement = captchaBoxElement;
+   public Captcha setCaptchaSquareElement(CaptchaSquareElement captchaSquareElement) {
+      this.captchaSquareElement = captchaSquareElement;
       return this;
    }
 
@@ -63,7 +61,7 @@ public class Captcha {
    }
 
    public CaptchaSubmitButton getSubmitButton(){
-      return new CaptchaSubmitButton(captchaBoxElement.findElement(By.id("recaptcha-verify-button")));
+      return new CaptchaSubmitButton(captchaSquareElement.findElement(By.id("recaptcha-verify-button")), webDriver);
    }
    public Captcha build(){
       checkboxService = new CheckboxService(getWebDriver());

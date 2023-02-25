@@ -1,85 +1,23 @@
 package org.jhey.captcha_breaker.stt.html.elements;
 
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.util.List;
-
-public abstract class CustomElement {
-   private WebElement webElement;
-   protected CustomElement(WebElement webElement) {
-      this.webElement = webElement;
-   }
-   public void updateRawWebElement(WebElement newWebElement){
-      this.webElement = newWebElement;
+/**
+ * This class only provides custom methods for elements
+ * */
+public abstract class CustomElement extends Element {
+   protected CustomElement(WebElement webElement, WebDriver webDriver) {
+      super(webElement, webDriver);
    }
    public WebElement toWebElement(){
        return this.webElement;
    }
-   public void click() {
-      webElement.click();
-   }
-   public void submit() {
-      webElement.submit();
-   }
-
-   public void sendKeys(CharSequence... keysToSend) {
-   webElement.sendKeys(keysToSend);
-   }
-
-   public void clear() {
-   webElement.clear();
-   }
-
-   public String getTagName() {
-      return webElement.getTagName();
-   }
-
-   public String getAttribute(String name) {
-      return webElement.getAttribute(name);
-   }
-
-   public boolean isSelected() {
-      return webElement.isSelected();
-   }
-
-   public boolean isEnabled() {
-      return webElement.isEnabled();
-   }
-
-   public String getText() {
-      return webElement.getText();
-   }
-
-   public List<WebElement> findElements(By by) {
-      return webElement.findElements(by);
-   }
-
-   public WebElement findElement(By by) {
-      return webElement.findElement(by);
-   }
-
-   public boolean isDisplayed() {
-      return webElement.isDisplayed();
-   }
-
-   public Point getLocation() {
-      return webElement.getLocation();
-   }
-
-   public Dimension getSize() {
-      return webElement.getSize();
-   }
-
-   public Rectangle getRect() {
-      return webElement.getRect();
-   }
-
-   public String getCssValue(String propertyName) {
-      return webElement.getCssValue(propertyName);
-   }
-
-   public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
-      return webElement.getScreenshotAs(target);
+   /**
+    * This is highly needed to get new info of an element when it is inside the iframe #document
+    * */
+   public void updateElement(WebElement newWebElement){
+      this.webElement = newWebElement;
    }
 }

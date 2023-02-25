@@ -1,7 +1,7 @@
 package org.jhey.captcha_breaker.stt.selenium.captcha;
 
 import org.jhey.captcha_breaker.stt.html.elements.Captcha;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaElement;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaSquareElement;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,14 +20,14 @@ public final class CaptchaFinder {
 
    public static Captcha findCaptchaElement(final WebDriver driver){
       try {
-         CaptchaElement captchaBoxElement = new CaptchaElement(driver.findElement(By.xpath(CAPTCHA_CLICKABLE_BOX_XPATH)));
+         CaptchaSquareElement captchaBoxElement = new CaptchaSquareElement(driver.findElement(By.xpath(CAPTCHA_CLICKABLE_BOX_XPATH)), driver);
 
          CaptchaChallengesBox captchaChallengeElement = new CaptchaChallengesBox
-                 (driver.findElement(By.xpath(CAPTCHA_CHALLENGE_BOX)));
+                 (driver.findElement(By.xpath(CAPTCHA_CHALLENGE_BOX)), driver);
 
          return new Captcha()
                  .setCaptchaChallengeElement(captchaChallengeElement)
-                 .setCaptchaBoxElement(captchaBoxElement)
+                 .setCaptchaSquareElement(captchaBoxElement)
                  .setWebDriver(driver)
                  .build();
 

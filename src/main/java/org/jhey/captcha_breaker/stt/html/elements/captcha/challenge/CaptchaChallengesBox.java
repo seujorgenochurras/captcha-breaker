@@ -18,6 +18,12 @@ public class CaptchaChallengesBox extends CustomElement {
 
       webDriver.switchTo().defaultContent();
    }
+
+   @Override
+   public String getXpath() {
+      return XPATH;
+   }
+
    public DeafChallenge getDeafChallenge(){
       return this.deafChallenge;
    }

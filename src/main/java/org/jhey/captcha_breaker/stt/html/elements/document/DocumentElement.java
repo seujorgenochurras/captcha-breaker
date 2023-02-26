@@ -1,5 +1,6 @@
-package org.jhey.captcha_breaker.stt.html.elements;
+package org.jhey.captcha_breaker.stt.html.elements.document;
 
+import org.jhey.captcha_breaker.stt.html.elements.CustomElement;
 import org.openqa.selenium.*;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * This is the #document that is inside the Iframe tag
  */
-public abstract class DocumentElement extends CustomElement{
+public abstract class DocumentElement extends CustomElement {
    private static final Logger logger = Logger.getLogger(DocumentElement.class.getName());
 
    protected DocumentElement(WebElement webElement, WebDriver webDriver) {

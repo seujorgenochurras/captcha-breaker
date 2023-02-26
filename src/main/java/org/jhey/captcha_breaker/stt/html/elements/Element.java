@@ -5,8 +5,8 @@ import org.openqa.selenium.*;
 import java.util.List;
 
 public abstract class Element {
-   WebElement webElement;
-   WebDriver webDriver;
+   protected final WebElement webElement;
+   protected final WebDriver webDriver;
    protected Element(WebElement element, WebDriver webDriver){
       this.webDriver = webDriver;
       this.webElement = element;

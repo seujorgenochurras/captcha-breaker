@@ -11,6 +11,9 @@ public abstract class CustomElement extends Element {
    protected CustomElement(WebElement webElement, WebDriver webDriver) {
       super(webElement, webDriver);
    }
+
+   public abstract String getXpath();
+
    public WebElement toWebElement(){
        return this.webElement;
    }

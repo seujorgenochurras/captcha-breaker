@@ -1,7 +1,8 @@
 package org.jhey.captcha_breaker.stt.html.elements.captcha.challenge;
 
-import org.jhey.captcha_breaker.stt.html.elements.DocumentElement;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.CaptchaSubmitButton;
+import org.jhey.captcha_breaker.stt.html.elements.document.DocumentElement;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.ui.CaptchaSubmitButton;
+import org.jhey.captcha_breaker.stt.html.elements.document.DocumentUtils;
 import org.jhey.captcha_breaker.stt.selenium.captcha.CaptchaBreaker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.WebElement;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,34 +18,31 @@ public class DeafChallenge extends DocumentElement {
 
    public static final String XPATH = "//*[@id=\"recaptcha-audio-button\"]";
    private DeafInputAudioText deafInputAudioText;
-   private final WebDriver webDriver1;
    private CaptchaSubmitButton submitButton;
    private WebElement audioButtonElement;
    public DeafChallenge(WebElement webElement, WebDriver webDriver) {
       super(webElement, webDriver);
-      this.webDriver1 = webDriver;
+   }
+
+   @Override
+   public String getXpath() {
+      return XPATH;
    }
 
    @Override
    public void click() {
       super.click();
-      webDriver1.switchTo().frame(webDriver1.findElement(By.xpath(CaptchaChallengesBox.XPATH)));
-      try {
-      Thread.sleep(3000);
-
-      }catch (Exception e){
-         System.out.println("EXCEPTIONS! " + e.getStackTrace());
-      }
+      webDriver.switchTo().frame(webDriver.findElement(By.xpath(CaptchaChallengesBox.XPATH)));
+      DocumentUtils.waitExistenceOf(this.toWebElement(), webDriver, Duration.ofSeconds(2));
 
       this.deafInputAudioText = new DeafInputAudioText(
-              webDriver1.findElement(By.xpath("//*[@id=\"audio-response\"]")),
-              webDriver1);
+              webDriver.findElement(By.xpath("//*[@id=\"audio-response\"]")),
+              webDriver);
 
-      this.audioButtonElement = webDriver1.findElement(By.xpath("//*[@id=\"rc-audio\"]/div[7]/a"));
+      this.audioButtonElement = webDriver.findElement(By.xpath("//*[@id=\"rc-audio\"]/div[7]/a"));
+      this.submitButton = new CaptchaSubmitButton(webDriver.findElement(By.xpath(CaptchaSubmitButton.XPATH)), webDriver);
 
-      this.submitButton = new CaptchaSubmitButton(webDriver1.findElement(By.xpath(CaptchaSubmitButton.XPATH)), webDriver1);
-
-      webDriver1.switchTo().defaultContent();
+      webDriver.switchTo().defaultContent();
    }
    public CaptchaSubmitButton getSubmitButton() {
       return submitButton;
@@ -55,17 +54,17 @@ public class DeafChallenge extends DocumentElement {
    }
 
    public URL getAudioURL() {
-      webDriver1.switchTo().frame(webDriver1.findElement(By.xpath(CaptchaChallengesBox.XPATH)));
+      webDriver.switchTo().frame(webDriver.findElement(By.xpath(CaptchaChallengesBox.XPATH)));
       try{
          URL result =  new URL(audioButtonElement.getAttribute("href"));
-         webDriver1.switchTo().defaultContent();
+         webDriver.switchTo().defaultContent();
          return result;
       }catch (MalformedURLException e){
         Logger logger = Logger.getLogger(CaptchaBreaker.class.getName());
         logger.log(Level.SEVERE,
                 e.getMessage().concat(" Couldn't get the captcha audio URL"));
       }
-      webDriver1.switchTo().defaultContent();
+      webDriver.switchTo().defaultContent();
       return null;
    }
    public DeafInputAudioText getInputAudio(){

@@ -1,7 +1,7 @@
 package org.jhey;
 
 
-import org.jhey.captcha_breaker.stt.html.elements.Captcha;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.Captcha;
 import org.jhey.captcha_breaker.stt.selenium.captcha.CaptchaFinder;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;

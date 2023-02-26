@@ -1,7 +1,7 @@
-package org.jhey.captcha_breaker.stt.api.request.dto;
+package org.jhey.captcha_breaker.api.request.dto;
 
 import com.google.gson.annotations.SerializedName;
-import org.jhey.captcha_breaker.stt.api.request.RequestState;
+import org.jhey.captcha_breaker.api.request.RequestState;
 
 import javax.annotation.Nullable;
 

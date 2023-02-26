@@ -54,15 +54,20 @@ public class CaptchaBreaker {
    }
    
    private boolean isCaptchaCompleted(){
+      System.out.println("DID IT AND IS " + captcha.getCheckbox().isVerified());
      waitToBeStaleness(captcha.getCheckbox().toWebElement());
      return captcha.getCheckbox().isVerified();
    }
 
    private void solveCaptcha() throws IOException, ExecutionException, InterruptedException {
+      Thread.sleep(4000);
+      captcha.generateChallengeElement();
       CaptchaChallengesBox captchaChallengesBox = captcha.getCaptchaChallengeElement();
 
       captchaChallengesBox.openDeafChallenge();
+
       DeafChallenge deafChallenge = captchaChallengesBox.getDeafChallenge();
+
       waitToBeStaleness(captcha.getCaptchaChallengeElement().getDeafChallenge().toWebElement());
 
       String transcribedAudio = getAudioText(deafChallenge.getAudioURL().toString());
@@ -100,7 +105,7 @@ public class CaptchaBreaker {
       }
    }
    private void finishCaptcha(){
-      captcha.getSubmitButton().click();
+      captcha.getCaptchaChallengeElement().getDeafChallenge().getSubmitButton().click();
       waitToBeStaleness(captcha.getCaptchaSquareElement().toWebElement());
       if (!isCaptchaCompleted()) {
          breakCaptcha();

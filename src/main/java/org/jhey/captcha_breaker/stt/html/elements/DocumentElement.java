@@ -27,7 +27,6 @@ public abstract class DocumentElement extends CustomElement{
       voidedHandleStaleElement(super::click);
    }
 
-
    @Override
    public void submit() {
       voidedHandleStaleElement(super::submit);
@@ -132,7 +131,7 @@ public abstract class DocumentElement extends CustomElement{
       try{
          return callable.call();
       } catch (Exception e) {
-         logger.log(Level.SEVERE, "An error happen when calling ".concat(this.getTagName()));
+         logger.log(Level.SEVERE, "An error happen when calling ".concat(super.getTagName()));
          logger.log(Level.SEVERE, e.getMessage());
          return null;
       }

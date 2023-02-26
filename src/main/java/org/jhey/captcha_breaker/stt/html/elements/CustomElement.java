@@ -14,10 +14,4 @@ public abstract class CustomElement extends Element {
    public WebElement toWebElement(){
        return this.webElement;
    }
-   /**
-    * This is highly needed to get new info of an element when it is inside the iframe #document
-    * */
-   public void updateElement(WebElement newWebElement){
-      this.webElement = newWebElement;
-   }
 }

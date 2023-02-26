@@ -9,7 +9,6 @@ public class CaptchaCheckbox extends DocumentElement {
    public CaptchaCheckbox(WebElement webElement, WebDriver webDriver) {
       super(webElement, webDriver);
    }
-
    @Override
    protected String getIframeXpath() {
       return CaptchaSquareElement.XPATH;

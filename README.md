@@ -2,15 +2,16 @@
 A Google Selenium Captcha Breaker that I'll use on future projects.
 
 ### How it works?
-It transcribes the captcha for deafs audio using Assembly AI
+It transcribes the captcha for deafs audio using Assembly AI.
+<br>
 Note that the application is not able to get the captcha token that is released when the captcha is 
 finished
 
 ### How to use it?
-The application is dividided in 2 parts, the transcriber and the selenium
-If you want to break any captcha on a page the first thing you have to set is the 
+The application is dividided in 2 parts, the transcriber and the selenium.
+<br>If you want to break any captcha on a page the first thing you have to set is the 
 captcha Element.
-The captcha element can be automatically found by using the `CaptchaFinder.findCaptchaElement()` method,
+<br>The captcha element can be automatically found by using the `CaptchaFinder.findCaptchaElement()` method,
 note that the method needs your WebDriver as a parameter.
 <br>
 After defining the captcha element you can simply call the `solveCaptcha()` method

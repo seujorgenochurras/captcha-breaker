@@ -9,12 +9,13 @@ finished
 
 ### How to use it?
 The application is dividided in 2 parts, the transcriber and the selenium.
-<br>If you want to break any captcha on a page the first thing you have to set is the 
+<br><br>If you want to break any captcha on a page the first thing you have to set is the 
 captcha Element.
 <br>The captcha element can be automatically found by using the `CaptchaFinder.findCaptchaElement()` method,
 note that the method needs your WebDriver as a parameter.
 <br>
-After defining the captcha element you can simply call the `solveCaptcha()` method
+After defining the captcha element you can simply call the `solveCaptcha()` method.
+<br>
 look at the example below.
 
     

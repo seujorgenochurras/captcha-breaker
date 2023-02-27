@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,8 @@ public class CaptchaBreaker {
       }catch (InterruptedException e){
          logger.log(Level.SEVERE, e.getMessage());
          Thread.currentThread().interrupt();
+      } catch (NoSuchElementException e){
+         logger.log(Level.SEVERE, "No such element occurred, probably caused by captcha blocking your IP address");
       }
    }
    

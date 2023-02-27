@@ -10,14 +10,16 @@ version '1.0.0'
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://repo.clojars.org'
-        name 'Clojars'
-    }
+    mavenLocal()
+//    maven {
+//        url 'https://repo.clojars.org'
+//        name 'Clojars'
+//    }
 }
 
 dependencies {
     implementation 'org.seleniumhq.selenium:selenium-java:4.8.0'
+    implementation 'org.jhey:selenium-custom-elements:1.0.0'
     implementation 'io.github.cdimascio:dotenv-java:2.3.2'
     implementation 'com.google.code.gson:gson:2.10.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'

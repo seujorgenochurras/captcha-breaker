@@ -1,7 +1,7 @@
 package org.jhey.captcha_breaker.stt.html.elements.captcha.ui;
 
-import org.jhey.captcha_breaker.stt.html.elements.document.DocumentElement;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
+import org.jhey.custom.element.document.DocumentElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 

@@ -16,7 +16,7 @@ captcha Element.
 <br><br>The captcha element can be automatically found by using the method `CaptchaFinder.findCaptchaElement()`,
 note that the method needs your WebDriver as a parameter.
 <br>
-After defining the captcha element you can simply call the `solveCaptcha()` method.
+After defining the captcha element you can simply call the method `solveCaptcha()`.
 <br>
 look at the example below.
 

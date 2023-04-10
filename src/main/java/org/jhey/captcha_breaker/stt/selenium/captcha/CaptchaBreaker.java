@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.jhey.captcha_breaker.stt.html.elements.document.DocumentUtils.waitToBeClickable;
 import static org.jhey.captcha_breaker.stt.html.elements.document.DocumentUtils.waitToBeStalenessOf;
 
 /**
@@ -60,9 +61,9 @@ public class CaptchaBreaker {
    
    private boolean isCaptchaCompleted(){
      waitToBeStalenessOf(captcha.getCheckbox().toWebElement(), webDriver, Duration.ofSeconds(waitToBeStalenessSeconds));
+     waitToBeClickable(captcha.getCheckbox().toWebElement(), webDriver, Duration.ofSeconds(waitToBeStalenessSeconds));
      return captcha.getCheckbox().isVerified();
    }
-
    private void solveCaptcha() throws IOException, ExecutionException, InterruptedException {
       waitToBeStalenessOf(captcha.getCaptchaSquareElement().toWebElement(), webDriver, Duration.ofSeconds(waitToBeStalenessSeconds));
 

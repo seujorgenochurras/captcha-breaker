@@ -14,13 +14,13 @@ import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DeafChallenge extends DocumentElement {
+public class BlindChallenge extends DocumentElement {
 
    public static final String XPATH = "//*[@id=\"recaptcha-audio-button\"]";
-   private DeafInputAudioText deafInputAudioText;
+   private BlindInputAudioText blindInputAudioText;
    private CaptchaSubmitButton submitButton;
    private WebElement audioButtonElement;
-   public DeafChallenge(WebElement webElement, WebDriver webDriver) {
+   public BlindChallenge(WebElement webElement, WebDriver webDriver) {
       super(webElement, webDriver);
    }
 
@@ -35,7 +35,7 @@ public class DeafChallenge extends DocumentElement {
       webDriver.switchTo().frame(webDriver.findElement(By.xpath(CaptchaChallengesBox.XPATH)));
       DocumentUtils.waitExistenceOf(this.toWebElement(), webDriver, Duration.ofSeconds(2));
 
-      this.deafInputAudioText = new DeafInputAudioText(
+      this.blindInputAudioText = new BlindInputAudioText(
               webDriver.findElement(By.xpath("//*[@id=\"audio-response\"]")),
               webDriver);
 
@@ -67,8 +67,8 @@ public class DeafChallenge extends DocumentElement {
       webDriver.switchTo().defaultContent();
       return null;
    }
-   public DeafInputAudioText getInputAudio(){
-      return this.deafInputAudioText;
+   public BlindInputAudioText getInputAudio(){
+      return this.blindInputAudioText;
    }
 
 }

@@ -4,9 +4,9 @@ import org.jhey.custom.element.document.DocumentElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class DeafInputAudioText extends DocumentElement {
+public class BlindInputAudioText extends DocumentElement {
    public static final String XPATH = "//*[@id=\"audio-response\"]";
-   public DeafInputAudioText(WebElement webElement, WebDriver webDriver) {
+   public BlindInputAudioText(WebElement webElement, WebDriver webDriver) {
       super(webElement, webDriver);
    }
    @Override

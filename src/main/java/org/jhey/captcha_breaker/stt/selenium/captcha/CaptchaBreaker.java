@@ -3,7 +3,7 @@ package org.jhey.captcha_breaker.stt.selenium.captcha;
 import org.jhey.captcha_breaker.api.AudioParser;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.Captcha;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.DeafChallenge;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.BlindChallenge;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.ui.CaptchaSquareElement;
 import org.openqa.selenium.WebDriver;
 
@@ -69,16 +69,16 @@ public class CaptchaBreaker {
       captcha.generateChallengeElement();
       CaptchaChallengesBox captchaChallengesBox = captcha.getCaptchaChallengeElement();
 
-      captchaChallengesBox.openDeafChallenge();
+      captchaChallengesBox.openBlindChallenge();
 
-      DeafChallenge deafChallenge = captchaChallengesBox.getDeafChallenge();
+      BlindChallenge blindChallenge = captchaChallengesBox.getBlindChallenge();
 
-      waitToBeStalenessOf(captcha.getCaptchaChallengeElement().getDeafChallenge().toWebElement(),
+      waitToBeStalenessOf(captcha.getCaptchaChallengeElement().getBlindChallenge().toWebElement(),
               webDriver,
               Duration.ofSeconds(waitToBeStalenessSeconds));
 
-      String transcribedAudio = getAudioText(deafChallenge.getAudioURL().toString());
-        deafChallenge.getInputAudio().sendKeys(transcribedAudio);
+      String transcribedAudio = getAudioText(blindChallenge.getAudioURL().toString());
+        blindChallenge.getInputAudio().sendKeys(transcribedAudio);
         finishCaptcha();
    }
 
@@ -89,7 +89,7 @@ public class CaptchaBreaker {
    }
 
    private void finishCaptcha(){
-      captcha.getCaptchaChallengeElement().getDeafChallenge().getSubmitButton().click();
+      captcha.getCaptchaChallengeElement().getBlindChallenge().getSubmitButton().click();
 
       waitToBeStalenessOf(captcha.getCaptchaSquareElement().toWebElement(),
               webDriver,

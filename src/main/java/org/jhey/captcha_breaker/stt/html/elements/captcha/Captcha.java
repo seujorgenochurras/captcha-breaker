@@ -42,7 +42,7 @@ public class Captcha {
       this.captchaChallengeElement = captchaChallengeElement;
    }
    public CaptchaSubmitButton getSubmitButton() {
-      return getCaptchaChallengeElement().getDeafChallenge().getSubmitButton();
+      return getCaptchaChallengeElement().getBlindChallenge().getSubmitButton();
    }
 
    private static final String CAPTCHA_CHALLENGE_BOX = "//iframe[starts-with(@src, 'https://www.google.com/recaptcha/api2/bframe?')]";

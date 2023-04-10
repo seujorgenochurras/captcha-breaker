@@ -11,10 +11,6 @@ version '1.0.0'
 repositories {
     mavenCentral()
     mavenLocal()
-//    maven {
-//        url 'https://repo.clojars.org'
-//        name 'Clojars'
-//    }
 }
 
 dependencies {
@@ -35,13 +31,12 @@ publishing {
                 from components.java
         }
     }
-    repositories{
-        maven{
-            name = 'selenium-captcha-breaker'
-            url 'file://' + project.buildDir.path + '/repo'
-
-        }
-    }
+//    repositories{
+//        maven{
+//            name = 'selenium-captcha-breaker'
+//            url = "https://repo1.maven.org/maven2"
+//        }
+//    }
 }
 
 

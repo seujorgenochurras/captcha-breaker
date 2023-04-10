@@ -37,6 +37,7 @@ public class AudioParser {
       if(!isValidUrl(audioUrl)) throw new IllegalArgumentException("audioUrl is not a valid Url");
       this.audioUrl = audioUrl;
    }
+
    public AssemblyResponseDTO transcribeAudio() throws IOException, InterruptedException, ExecutionException {
       HttpRequest audioRequest = RequestBuilder.buildPostRequest(audioUrl);
       responseHandler.setCheckDelay(getCheckIfAudioIsProcessedTimer());

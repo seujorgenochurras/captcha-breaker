@@ -15,8 +15,10 @@ public class ResponseHandler {
       }
 
       public CompletableFuture<AssemblyResponseDTO> handle(AssemblyResponseDTO responseDTO, final Duration checkDelay){
+
             CompletableFuture<AssemblyResponseDTO> completableFuture = new CompletableFuture<>();
             AudioRunnable audioRunnable = new AudioRunnable(completableFuture, responseDTO);
+
             executorService.scheduleWithFixedDelay(
                    audioRunnable,
                     1,

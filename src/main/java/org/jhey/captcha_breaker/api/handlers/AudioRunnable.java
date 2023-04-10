@@ -7,6 +7,8 @@ import org.jhey.captcha_breaker.api.request.RequestState;
 import java.io.IOException;
 import java.net.http.HttpRequest;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AudioRunnable implements Runnable {
    private final CompletableFuture<AssemblyResponseDTO> responseDTOCompletableFuture;
@@ -28,7 +30,9 @@ public class AudioRunnable implements Runnable {
             throw new IllegalStateException("AssemblyAPI returned ERROR, check if the URL is valid");
          }
       } catch (IOException | InterruptedException e) {
-            System.out.println("Exception " + e.getMessage());
+         Logger logger = Logger.getLogger(AudioRunnable.class.getName());
+         logger.log(Level.WARNING, "Error ".concat(e.getMessage()));
+         Thread.currentThread().interrupt();
       }
    }
 }

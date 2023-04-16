@@ -1,7 +1,6 @@
 package org.jhey.captcha_breaker.api.request;
 
 import com.google.gson.Gson;
-import io.github.cdimascio.dotenv.Dotenv;
 import org.jhey.captcha_breaker.api.request.dto.AssemblyResponseDTO;
 
 import javax.annotation.Nonnull;
@@ -12,8 +11,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public abstract class RequestBuilder {
-   private static final Dotenv dotenv = Dotenv.load();
-   private static final String ASSEMBLYAI_TOKEN = dotenv.get("ASSEMBLYAI_TOKEN");
    private static final String ASSEMBLY_AI_URL = "https://api.assemblyai.com/v2/transcript";
    private static final HttpClient httpClient = HttpClient.newHttpClient();
 

@@ -18,8 +18,13 @@ public class Captcha {
    private final CaptchaCheckbox checkbox;
    private final WebDriver webDriver; // This is needed to be able to break the captcha
    private static final Logger logger = Logger.getLogger(Captcha.class.getName());
-   public void solveCaptcha(){
-      CaptchaBreaker captchaBreaker = new CaptchaBreaker(this);
+
+   /***
+    *
+    * @param assemblyAiToken your token to the AssemblyAI audio transcriber
+    */
+   public void solveCaptcha(String assemblyAiToken){
+      CaptchaBreaker captchaBreaker = new CaptchaBreaker(this, assemblyAiToken);
       captchaBreaker.breakCaptcha();
    }
 
@@ -56,7 +61,7 @@ public class Captcha {
         setCaptchaChallengeElement(new CaptchaChallengesBox
               (webDriver.findElement(By.xpath(CAPTCHA_CHALLENGE_BOX)), webDriver));
       }catch (NoSuchElementException e){
-         logger.log(Level.SEVERE, "Did not found a challenge element ");
+         logger.log(Level.SEVERE, "Did not find a challenge element ");
          logger.log(Level.SEVERE, e.getMessage());
       }
 

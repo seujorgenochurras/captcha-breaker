@@ -11,10 +11,14 @@ version '1.0.0'
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 dependencies {
-    implementation 'org.seleniumhq.selenium:selenium-java:4.8.0'
+    implementation("edu.cmu.sphinx:sphinx4-core:5prealpha-SNAPSHOT")
+    implementation("edu.cmu.sphinx:sphinx4-data:5prealpha-SNAPSHOT")
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.8.1'
     implementation 'org.jhey:selenium-custom-elements:1.0.0'
     implementation 'io.github.cdimascio:dotenv-java:2.3.2'
     implementation 'com.google.code.gson:gson:2.10.1'

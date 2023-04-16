@@ -2,8 +2,8 @@ package org.jhey.captcha_breaker.stt.selenium.captcha;
 
 import org.jhey.captcha_breaker.api.AudioParser;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.Captcha;
-import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.BlindChallenge;
+import org.jhey.captcha_breaker.stt.html.elements.captcha.challenge.CaptchaChallengesBox;
 import org.jhey.captcha_breaker.stt.html.elements.captcha.ui.CaptchaSquareElement;
 import org.openqa.selenium.WebDriver;
 
@@ -28,9 +28,11 @@ public class CaptchaBreaker {
    private final Captcha captcha;
    private final WebDriver webDriver;
 
+   private final String assemblyAiToken;
 
-   public CaptchaBreaker(Captcha captcha) {
+   public CaptchaBreaker(Captcha captcha, String assemblyAiToken) {
       this.captcha = captcha;
+      this.assemblyAiToken = assemblyAiToken;
       this.webDriver = captcha.getWebDriver();
    }
 
@@ -49,9 +51,7 @@ public class CaptchaBreaker {
 
       try {
          solveCaptcha();
-      }catch (IOException | ExecutionException e){
-         logger.log(Level.SEVERE, e.getMessage());
-      }catch (InterruptedException e){
+      }catch (IOException | ExecutionException | InterruptedException e){
          logger.log(Level.SEVERE, e.getMessage());
          Thread.currentThread().interrupt();
       } catch (NoSuchElementException e){
@@ -60,12 +60,13 @@ public class CaptchaBreaker {
    }
    
    private boolean isCaptchaCompleted(){
-     waitToBeStalenessOf(captcha.getCheckbox().toWebElement(), webDriver, Duration.ofSeconds(waitToBeStalenessSeconds));
      waitToBeClickable(captcha.getCheckbox().toWebElement(), webDriver, Duration.ofSeconds(waitToBeStalenessSeconds));
      return captcha.getCheckbox().isVerified();
    }
    private void solveCaptcha() throws IOException, ExecutionException, InterruptedException {
-      waitToBeStalenessOf(captcha.getCaptchaSquareElement().toWebElement(), webDriver, Duration.ofSeconds(waitToBeStalenessSeconds));
+      waitToBeStalenessOf(captcha.getCaptchaSquareElement().toWebElement(),
+              webDriver,
+              Duration.ofSeconds(waitToBeStalenessSeconds));
 
       captcha.generateChallengeElement();
       CaptchaChallengesBox captchaChallengesBox = captcha.getCaptchaChallengeElement();
@@ -74,17 +75,18 @@ public class CaptchaBreaker {
 
       BlindChallenge blindChallenge = captchaChallengesBox.getBlindChallenge();
 
-      waitToBeStalenessOf(captcha.getCaptchaChallengeElement().getBlindChallenge().toWebElement(),
+      waitToBeStalenessOf(blindChallenge.toWebElement(),
               webDriver,
               Duration.ofSeconds(waitToBeStalenessSeconds));
 
-      String transcribedAudio = getAudioText(blindChallenge.getAudioURL().toString());
-        blindChallenge.getInputAudio().sendKeys(transcribedAudio);
-        finishCaptcha();
+      String transcribedAudio = getAudioText(blindChallenge.getAudioURL().toString(), assemblyAiToken);
+
+      blindChallenge.getInputAudio().sendKeys(transcribedAudio);
+      finishCaptcha();
    }
 
-   private static String getAudioText(String audioUrl) throws IOException, ExecutionException, InterruptedException {
-      AudioParser audioParser = new AudioParser();
+   private static String getAudioText(String audioUrl, String assemblyAiToken) throws IOException, ExecutionException, InterruptedException {
+      AudioParser audioParser = new AudioParser(assemblyAiToken);
       audioParser.setAudioUrl(audioUrl);
       return audioParser.transcribeAudio().getTranscribedAudio();
    }

@@ -12,7 +12,7 @@ public class CaptchaCheckbox extends DocumentElement {
 
    @Override
    public String getXpath() {
-      return getXpath();
+      return XPATH;
    }
 
    @Override

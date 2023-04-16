@@ -13,14 +13,17 @@ import java.util.logging.Logger;
 public class AudioRunnable implements Runnable {
    private final CompletableFuture<AssemblyResponseDTO> responseDTOCompletableFuture;
    private AssemblyResponseDTO audioProcessingResponse;
-   public AudioRunnable(CompletableFuture<AssemblyResponseDTO> responseDTOCompletableFuture, AssemblyResponseDTO audioProcessingResponse) {
+
+   private final String assemblyAIToken;
+   public AudioRunnable(CompletableFuture<AssemblyResponseDTO> responseDTOCompletableFuture, AssemblyResponseDTO audioProcessingResponse, String assemblyAIToken) {
       this.responseDTOCompletableFuture = responseDTOCompletableFuture;
       this.audioProcessingResponse = audioProcessingResponse;
+      this.assemblyAIToken = assemblyAIToken;
    }
 
    @Override
    public void run() {
-      HttpRequest transcribedAudioStatus = RequestBuilder.buildGetAudioStateRequest(audioProcessingResponse);
+      HttpRequest transcribedAudioStatus = RequestBuilder.buildGetAudioStateRequest(audioProcessingResponse, assemblyAIToken);
       try {
          audioProcessingResponse = RequestBuilder.getResponse(transcribedAudioStatus);
         RequestState processingStatus = audioProcessingResponse.getRequestState();

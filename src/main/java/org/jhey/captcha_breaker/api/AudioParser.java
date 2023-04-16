@@ -16,9 +16,15 @@ import java.util.concurrent.ExecutionException;
 public class AudioParser {
    private String audioUrl;
    private Duration checkIfAudioIsProcessedTimer = Duration.ofSeconds(5);
+
+   private final String assemblyAiToken;
    private final ResponseHandler responseHandler = new ResponseHandler(getCheckIfAudioIsProcessedTimer());
    public Duration getCheckIfAudioIsProcessedTimer() {
       return checkIfAudioIsProcessedTimer;
+   }
+
+   public AudioParser(String assemblyAiToken) {
+      this.assemblyAiToken = assemblyAiToken;
    }
 
    /**
@@ -39,10 +45,12 @@ public class AudioParser {
    }
 
    public AssemblyResponseDTO transcribeAudio() throws IOException, InterruptedException, ExecutionException {
-      HttpRequest audioRequest = RequestBuilder.buildPostRequest(audioUrl);
+
+      HttpRequest audioRequest = RequestBuilder.buildPostRequest(audioUrl, assemblyAiToken);
       responseHandler.setCheckDelay(getCheckIfAudioIsProcessedTimer());
       AssemblyResponseDTO responseDTO = RequestBuilder.getResponse(audioRequest);
-      return responseHandler.handle(responseDTO, getCheckIfAudioIsProcessedTimer()).get();
+
+      return responseHandler.handle(responseDTO, getCheckIfAudioIsProcessedTimer(), assemblyAiToken).get();
    }
    private boolean isValidUrl(String audioUrl) {
       try{

@@ -8,15 +8,17 @@ Note that the application is not able to get the captcha token that is released 
 finished
 
 ### How to use it?
+First, checkout the AssemblyAi API docs which can be found [here](https://www.assemblyai.com/docs#quickstart) <br>
+you need to create an account and get a token<br><br>
 
-First, checkout my [Selenium Custom Elements](https://github.com/seujorgenochurras/selenium-custom-elements) to get all the needed dependencies. <br><br>
+Then, you need to see my [Selenium Custom Elements](https://github.com/seujorgenochurras/selenium-custom-elements) to get the custom elements dependency. <br><br>
 The application is divided in 2 parts, the transcriber and the selenium. <br>
 If you want to break any captcha on a page the first thing you have to set is the 
 captcha Element.
 <br><br>The captcha element can be automatically found by using the method `CaptchaFinder.findCaptchaElement()`,
-note that the method needs your WebDriver as a parameter.
+note that the method needs your WebDriver as a parameter. You can also force it to get a specific captcha xpath, but that's not recomended
 <br>
-After defining the captcha element you can simply call the method `solveCaptcha()`.
+After defining the captcha element you can simply call the method `solveCaptcha`.
 <br>
 look at the example below.
 
@@ -27,7 +29,7 @@ look at the example below.
    
    
    Captcha captcha = CaptchaFinder.findCaptchaElement(driver);
-   captcha.solveCaptcha();
+   captcha.solveCaptcha("Your assemblyAiToken goes here");
 ```
 ### How do I implement it?
 Well this is one of my major problems, right now I have no idea on 

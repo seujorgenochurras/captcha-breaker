@@ -14,6 +14,6 @@ public class Main {
       driver.get("https://www.google.com/recaptcha/api2/demo");
 
       Captcha captcha = CaptchaFinder.findCaptchaElement(driver);
-      captcha.solveCaptcha("e4e63db875154d3ebc0c966d8b1bd793");
+      captcha.solveCaptcha("TOKEN");
    }
 }

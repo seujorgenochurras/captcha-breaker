@@ -29,7 +29,7 @@ public class AudioParser {
 
    /**
     * Delay to check if audio has been processed.
-    * @default: 5 seconds
+    * @param checkIfAudioIsProcessedTimer delay to check if the audio has been processed, default value is 5 seconds
     * */
    public void setCheckIfAudioIsProcessedTimer(Duration checkIfAudioIsProcessedTimer) {
       this.checkIfAudioIsProcessedTimer = checkIfAudioIsProcessedTimer;

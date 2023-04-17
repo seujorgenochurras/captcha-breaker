@@ -35,3 +35,7 @@ build/
 .env
 .gradle
 gradle
+
+settings.gradle
+mypubkeys.asc
+private.key

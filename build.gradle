@@ -3,10 +3,12 @@ plugins {
     id 'org.springframework.boot' version '3.0.2'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
 }
 
 group 'org.jhey'
 version '1.1.0'
+archivesBaseName = "selenium-captcha-breaker"
 
 repositories {
     mavenCentral()
@@ -21,24 +23,56 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 
 }
+
 publishing {
     publications {
-        seleniumCaptchaBreaker(MavenPublication){
-                groupId = 'org.jhey'
-                artifactId = 'selenium-captcha-breaker'
-                version = '1.0.0'
-                from components.java
+        mavenJava(MavenPublication) {
+
+            pom {
+                name = 'Selenium Captcha Breaker'
+                description = 'A captcha breaker using selenium library'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'LILJ'
+                        name = 'Little Jhey'
+                        email = 'jjotinha_oficial@outlook.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/captcha-breaker'
+                    developerConnection = 'scm:git:git://github.com/captcha-breaker'
+                    url = 'https://github.com/seujorgenochurras/captcha-breaker'
+                }
+
+            }
         }
     }
-//    repositories{
-//        maven{
-//            name = 'selenium-captcha-breaker'
-//            url = "https://repo1.maven.org/maven2"
-//        }
-//    }
 }
 
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
 
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+
+}
 test {
     useJUnitPlatform()
 }

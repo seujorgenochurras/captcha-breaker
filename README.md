@@ -32,9 +32,7 @@ look at the example below.
 ### How do I implement it?
 Well this is one of my major problems, right now I have no idea on 
 how to create a dependency to the world,
-I'll probably study a bit more about Gradlew and Maven.
-<br>    I'm so sorry you have to hear that, but I also don't know how
-to implement this on the code without Gradlew or Maven.
+I'll probably study a bit more about Gradle and Maven.
 
 ### Is it good?
 I think good is a strong word for this project.

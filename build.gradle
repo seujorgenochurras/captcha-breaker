@@ -6,31 +6,38 @@ plugins {
     id 'signing'
 }
 
-group 'org.jhey'
-version '1.1.0'
-archivesBaseName = "selenium-captcha-breaker"
+group 'io.github.seujorgenochurras'
+version '1.2.0'
+
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
     implementation 'org.seleniumhq.selenium:selenium-java:4.8.1'
-    implementation 'org.jhey:selenium-custom-elements:1.0.0'
     implementation 'com.google.code.gson:gson:2.10.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    implementation 'io.github.seujorgenochurras:selenium-custom-elements:0.1.0'
+}
 
+java{
+    withJavadocJar()
+    withSourcesJar()
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            groupId = 'io.github.seujorgenochurras'
+            artifactId = "selenium-captcha-breaker"
+            version = '1.2.0'
+            from components.java
 
             pom {
                 name = 'Selenium Captcha Breaker'
                 description = 'A captcha breaker using selenium library'
+                url = 'https://github.com/seujorgenochurras/captcha-breaker'
+
                 licenses {
                     license {
                         name = 'MIT License'
@@ -49,30 +56,25 @@ publishing {
                     developerConnection = 'scm:git:git://github.com/captcha-breaker'
                     url = 'https://github.com/seujorgenochurras/captcha-breaker'
                 }
-
+            }
+        }
+    }
+    repositories {
+        maven{
+            name = "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials{
+                username = project.properties["repoUser"]
+                password = project.properties["repoPassword"]
             }
         }
     }
 }
-
-    task javadocJar(type: Jar) {
-        classifier = 'javadoc'
-        from javadoc
-    }
-
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
 
 artifacts {
     archives javadocJar, sourcesJar
 }
 
 signing {
-    sign configurations.archives
-
-}
-test {
-    useJUnitPlatform()
+    sign publishing.publications.mavenJava
 }

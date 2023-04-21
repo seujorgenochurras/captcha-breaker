@@ -9,7 +9,6 @@ finished
 
 ### How to use it?
 
-First, checkout my [Selenium Custom Elements](https://github.com/seujorgenochurras/selenium-custom-elements) to get all the needed dependencies. <br><br>
 The application is divided in 2 parts, the transcriber and the selenium. <br>
 If you want to break any captcha on a page the first thing you have to set is the 
 captcha Element.
@@ -25,14 +24,23 @@ look at the example below.
    WebDriver driver = new ChromeDriver();
    driver.get("https://www.google.com/recaptcha/api2/demo");
    
-   
    Captcha captcha = CaptchaFinder.findCaptchaElement(driver);
-   captcha.solveCaptcha();
+   captcha.solveCaptcha("ASSEMBLY-AI-TOKEN-HERE");
 ```
 ### How do I implement it?
-Well this is one of my major problems, right now I have no idea on 
-how to create a dependency to the world,
-I'll probably study a bit more about Gradle and Maven.
+    Gralde:
+ 
+     implementation 'io.github.seujorgenochurras:selenium-captcha-breaker:1.2.0'
+_
+
+```
+   Maven:
+   <dependency>
+       <groupId>io.github.seujorgenochurras</groupId>
+       <artifactId>selenium-captcha-breaker</artifactId>
+       <version>1.2.0</version>
+    </dependency>
+   ```
 
 ### Is it good?
 I think good is a strong word for this project.
